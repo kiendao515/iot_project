@@ -1,18 +1,17 @@
-import React from 'react'
-import { Provider } from 'react-native-paper'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import { theme } from './src/core/theme'
-import {
-  StartScreen,
-  LoginScreen,
-  RegisterScreen,
-  ResetPasswordScreen,
-  Dashboard,
-} from './src/screens'
-
-const Stack = createStackNavigator()
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider } from "react-native-paper";
+import { theme } from "./core/theme";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import StartScreen from "./screens/StartScreen";
+import { LogBox } from 'react-native';
+import ActivateAccountScreen from "./screens/ActivateAccountSreeen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Dashboard from "./screens/Dashboard";
+LogBox.ignoreLogs(['Non-serializable values were found in the navigation state',]);
+const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <Provider theme={theme}>

@@ -23,7 +23,7 @@ export default function ResetPasswordScreen({ navigation }) {
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Restore Password</Header>
+      <Header>Quên mật khẩu</Header>
       <TextInput
         label="E-mail address"
         returnKeyType="done"
@@ -35,14 +35,14 @@ export default function ResetPasswordScreen({ navigation }) {
         autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
-        description="You will receive email with password reset link."
+        description="Bạn sẽ nhận được đường dẫn khôi phục mật khẩu"
       />
       <Button
         mode="contained"
         onPress={sendResetPasswordEmail}
         style={{ marginTop: 16 }}
       >
-        Send Instructions
+        Khôi phục mật khẩu
       </Button>
     </Background>
   )
