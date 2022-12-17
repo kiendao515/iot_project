@@ -40,7 +40,12 @@ export default function LoginScreen({ navigation }) {
         navigation.navigate('Dashboard')
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data.message);
+        if (err.response.data.message.includes("Sai")) {
+          setPassword({...password, error: err.response.data.message })
+        } else {
+          setEmail({...email, error: err.response.data.message })
+        }
         setLoading(false)
       });
     }
