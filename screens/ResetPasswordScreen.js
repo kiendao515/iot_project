@@ -87,11 +87,11 @@ export default function ResetPasswordScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   loading: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    top: 0,
+    position: 'absolute',
+    bottom: -100,
+    left: -100,
+    right: -100,
+    top: -100,
     zIndex: 10,
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
