@@ -13,6 +13,7 @@ import { passwordValidator } from '../helpers/passwordValidator'
 import { REACT_APP_BASE_URL } from '@env'
 import axios from 'axios'
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -35,8 +36,9 @@ export default function LoginScreen({ navigation }) {
         password: password.value
       }
       axios.post(`${REACT_APP_BASE_URL}/account/sign-in`, body )
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
+        await AsyncStorage.setItem("token",res.data.account.accessToken);
         navigation.navigate('Dashboard')
       })
       .catch((err) => {
