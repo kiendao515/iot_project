@@ -168,7 +168,7 @@ const Dashboard = () => {
             </View>
             <View style={{ flexDirection: 'row', width: '50%' }}>
               <IconButton icon="water-outline" size={20}></IconButton>
-              <Text style={styles.temperature}>{balconyData?.humidity}%</Text>
+              <Text style={styles.temperature}>{parseInt(balconyData?.humidity)}%</Text>
             </View>
           </View>
         </View>

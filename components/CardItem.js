@@ -43,7 +43,7 @@ const CardItem = ({ item }) => {
   }
   return (
     <Card style={styles.card}>
-      <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+      <Card.Cover source={{ uri: item.image }} />
       <Card.Content>
         <Title>{item.name}</Title>
         <View style={{ flexDirection: 'row', marginLeft: -20 }}>
