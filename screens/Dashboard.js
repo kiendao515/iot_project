@@ -22,46 +22,56 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from '@env'
-import CardItem from '../components/CardItem';
-import Balcony from '../components/Balcony';
+import CardItem from '../components/CardItem'
+import Balcony from '../components/Balcony'
 const Dashboard = ({ navigation }) => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [visible, setVisible] = useState(false);
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
-  const [text, setText] = useState("");
-  const [balconyId, setBalconyId] = useState("");
-  const [balconyData, setBalconyData] = useState(null);
+  const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [visible, setVisible] = useState(false)
+  const showDialog = () => setVisible(true)
+  const hideDialog = () => setVisible(false)
+  const [text, setText] = useState('')
+  const [balconyId, setBalconyId] = useState('')
+  const [balconyData, setBalconyData] = useState(null)
   const handleLoadingChange = async (loading) => {
-    setIsLoading(loading);
+    setIsLoading(loading)
   }
-  const renderItem = ({ item }) =>
-    (<Balcony navigation={navigation} item={item} isLoading={isLoading} onLoading={handleLoadingChange} />)
+  const renderItem = ({ item }) => (
+    <Balcony
+      navigation={navigation}
+      item={item}
+      isLoading={isLoading}
+      onLoading={handleLoadingChange}
+    />
+  )
   const fetchData = async () => {
     // fetch data balcony
     const token = await AsyncStorage.getItem('token')
     let rs = await axios.get(`${REACT_APP_BASE_URL}/balcony/find`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-    console.log("balcony", rs.data.balconies);
-    if (rs.data.result == "success") {
+    console.log('balcony', rs.data.balconies)
+    if (rs.data.result == 'success') {
       setData(rs.data.balconies)
-      setIsLoading(false);
+      setIsLoading(false)
     } else {
-      setIsLoading(false);
-      Alert.alert("Fetch data fail")
+      setIsLoading(false)
+      Alert.alert('Fetch data fail')
     }
   }
   const addNewBalcony = async () => {
-    const token = await AsyncStorage.getItem("token");
-    let rs = await axios.post(`${REACT_APP_BASE_URL}/balcony/create`, {
-      name: text,
-      balconyId: balconyId
-    }, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    console.log(rs.data);
+    const token = await AsyncStorage.getItem('token')
+    let rs = await axios.post(
+      `${REACT_APP_BASE_URL}/balcony/create`,
+      {
+        name: text,
+        balconyId: balconyId,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+    console.log(rs.data)
     if (rs.data.balcony) {
       Alert.alert('Thêm mới thành công')
       hideDialog()
@@ -83,29 +93,36 @@ const Dashboard = ({ navigation }) => {
     <View>
       <View style={styles.rowContainer}>
         <View style={styles.header}>
-          <Text style={styles.textHeader} variant="headlineSmall">Danh sách ban công</Text>
-          <IconButton style={styles.textIcon}
+          <Text style={styles.textHeader} variant="headlineSmall">
+            Danh sách ban công
+          </Text>
+          <IconButton
+            style={styles.textIcon}
             icon="plus-circle-outline"
             size={20}
             onPress={() => showDialog()}
           />
         </View>
-        {isLoading==true ? <ActivityIndicator animating={true} color={MD2Colors.red800} /> : <FlatList
-          showsHorizontalScrollIndicator={false}
-          data={data}
-          renderItem={renderItem}
-          horizontal={false} />
-        }
+        {isLoading == true ? (
+          <ActivityIndicator animating={true} color={MD2Colors.red800} />
+        ) : (
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            data={data}
+            renderItem={renderItem}
+            horizontal={false}
+          />
+        )}
         <View style={balconyData ? { opacity: 1 } : { opacity: 0 }}>
           <View style={{ flexDirection: 'row', marginLeft: -15 }}>
             <View style={{ flexDirection: 'row' }}>
-              <IconButton icon="oil-temperature" size={20}>
-              </IconButton>
-              <Text style={styles.temperature}>{balconyData?.temperature}℃</Text>
+              <IconButton icon="oil-temperature" size={20}></IconButton>
+              <Text style={styles.temperature}>
+                {balconyData?.temperature}℃
+              </Text>
             </View>
             <View style={{ flexDirection: 'row', width: '50%' }}>
-              <IconButton icon="water-outline" size={20}>
-              </IconButton>
+              <IconButton icon="water-outline" size={20}></IconButton>
               <Text style={styles.temperature}>{balconyData?.humidity}%</Text>
             </View>
           </View>
@@ -115,7 +132,7 @@ const Dashboard = ({ navigation }) => {
             <Dialog.Title>Thêm mới ban công</Dialog.Title>
             <Dialog.Content>
               <TextInput
-                placeholder='Tên ban công'
+                placeholder="Tên ban công"
                 style={{ backgroundColor: 'transparent' }}
                 numberOfLines={4}
                 maxLength={40}
@@ -123,12 +140,12 @@ const Dashboard = ({ navigation }) => {
                 onChangeText={(text) => setText(text)}
               />
               <TextInput
-                placeholder='Mã sản phẩm'
+                placeholder="Mã sản phẩm"
                 style={{ backgroundColor: 'transparent' }}
                 numberOfLines={4}
                 maxLength={40}
                 value={balconyId}
-                onChangeText={text => setBalconyId(text)}
+                onChangeText={(text) => setBalconyId(text)}
               />
             </Dialog.Content>
             <Dialog.Actions>
