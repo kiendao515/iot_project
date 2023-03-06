@@ -31,6 +31,7 @@ const EditTree = ({ name, image, visible, onDismiss, title, treeId, onLoading, i
     const editTree = async () => {
         if (base != null) {
             onDismiss();
+            setLoading(true);
             let base64Img = `data:image/jpg;base64,${base}`
             let apiUrl = 'https://api.cloudinary.com/v1_1/dwjvhoiin/image/upload';
             let data = {
@@ -56,6 +57,7 @@ const EditTree = ({ name, image, visible, onDismiss, title, treeId, onLoading, i
                         headers: { Authorization: `Bearer ${token}` }
                     })
                     console.log(rs.data);
+                    setLoading(false);
                     handleChangeState()
                 } else {
                     Alert.alert("Upload ảnh ko thành công")
@@ -63,6 +65,7 @@ const EditTree = ({ name, image, visible, onDismiss, title, treeId, onLoading, i
             }).catch(err => console.log(err))
         } else {
             onDismiss();
+            setLoading(true);
             const token = await AsyncStorage.getItem("token");
             let rs = await axios.put(`${REACT_APP_BASE_URL}/plant/update`, {
                 name: text,
@@ -72,12 +75,13 @@ const EditTree = ({ name, image, visible, onDismiss, title, treeId, onLoading, i
                 headers: { Authorization: `Bearer ${token}` }
             })
             console.log(rs.data);
+            setLoading(false);
             handleChangeState()
         }
     }
     return (
         <View style={{ flex: 1 }}>
-            {/* {loading == true ? <ActivityIndicator animating={true} color={MD2Colors.red800}/> : null} */}
+            {loading == true ? <ActivityIndicator style={{top:-110}} animating={true} color={MD2Colors.red800}/> : null}
             <Portal>
                 <Dialog visible={visible} onDismiss={onDismiss}>
                     <Dialog.Title>{title}</Dialog.Title>

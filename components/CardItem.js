@@ -6,7 +6,7 @@ import axios from 'axios';
 import { REACT_APP_BASE_URL } from '@env'
 import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import EditTree from './EditTree';
-const CardItem = ({ item,navigation,isLoading,onLoading }) => {
+const CardItem = ({ item, navigation, isLoading, onLoading }) => {
   const [selected, setSelected] = useState(item.autoMode);
   const [waterPlant, setWaterPlant] = useState(false);
   const [data, setData] = useState([]);
@@ -96,6 +96,16 @@ const CardItem = ({ item,navigation,isLoading,onLoading }) => {
   return (
     <Card style={styles.card}>
       <Card.Cover source={{ uri: item.image }} />
+      <EditTree
+        treeId={item.plantId}
+        name={item.name}
+        image={item.image}
+        title="Sửa thông tin cây"
+        onLoading={onLoading}
+        isLoading={isLoading}
+        visible={visibleEdit}
+        onDismiss={hideDialogEdit}
+      />
       <Card.Content>
         <Title>{item.name}</Title>
         <View style={{ flexDirection: 'row', marginLeft: -20 }}>
@@ -105,7 +115,7 @@ const CardItem = ({ item,navigation,isLoading,onLoading }) => {
               </IconButton>
               <Text style={styles.temperature}>Độ ẩm đất: {item.soilMoisture} %</Text>
             </View>
-            <IconButton icon="pencil" size={30} onPress={()=>showDialogEdit()}>
+            <IconButton icon="pencil" size={30} onPress={() => showDialogEdit()}>
             </IconButton>
           </View>
         </View>
@@ -148,16 +158,6 @@ const CardItem = ({ item,navigation,isLoading,onLoading }) => {
             </View>
           }
         </View>
-        <EditTree
-            treeId={item.plantId}
-            name={item.name}
-            image={item.image}
-            title="Sửa thông tin cây"
-            onLoading={onLoading}
-            isLoading={isLoading}
-            visible={visibleEdit}
-            onDismiss={hideDialogEdit}
-         />
       </Card.Content>
       <Card.Actions>
       </Card.Actions>

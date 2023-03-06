@@ -80,7 +80,7 @@ const EditBalcony = ({ name, image, visible, onDismiss, title, balconyId, onLoad
     }
     return (
         <View style={{ flex: 1 }}>
-            {loading == true ? <ActivityIndicator animating={true} color={MD2Colors.red800} style={{ top: '50%' }} /> : null}
+            {loading == true ? <ActivityIndicator animating={true} color={MD2Colors.red800} style={{ top: -190 }} /> : null}
             <Portal>
                 <Dialog visible={visible} onDismiss={onDismiss}>
                     <Dialog.Title>{title}</Dialog.Title>

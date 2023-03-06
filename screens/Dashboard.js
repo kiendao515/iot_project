@@ -60,7 +60,7 @@ const Dashboard = ({ navigation }) => {
     <View>
       <View style={styles.rowContainer}>
         <View style={styles.header}>
-          <Text style={styles.textHeader} variant="headlineSmall">Home</Text>
+          <Text style={styles.textHeader} variant="headlineSmall">Danh sách ban công</Text>
           <IconButton style={styles.textIcon}
             icon="plus-circle-outline"
             size={20}
