@@ -1,6 +1,6 @@
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Button, Card, IconButton, Switch, Title } from 'react-native-paper'
+import { Button, Card, Dialog, IconButton, Portal, Switch, Title } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { REACT_APP_BASE_URL } from '@env'
@@ -13,6 +13,13 @@ const CardItem = ({ item, navigation, isLoading, onLoading }) => {
   const [visibleEdit, setVisibleEdit] = useState(false)
   const showDialogEdit = () => setVisibleEdit(true);
   const hideDialogEdit = () => setVisibleEdit(false);
+  const [visibleDelete, setVisibleDelete] = useState(false)
+  const showDialogDelete = () => setVisibleDelete(true);
+  const hideDialogDelete = () => setVisibleDelete(false);
+  const [loading, setLoading] = useState(false);
+  const handleChangeState = () => {
+      onLoading(!isLoading)
+  }
   const init = async () => {
     let d = []
     for (var i = 1; i <= 100; i++) {
@@ -93,6 +100,20 @@ const CardItem = ({ item, navigation, isLoading, onLoading }) => {
       Alert.alert("Cập nhập thành công")
     }
   }
+  const deleteTree = async(item)=>{
+    console.log(item);
+    hideDialogDelete()
+    const token = await AsyncStorage.getItem("token");
+    let rs = await axios.delete(`${REACT_APP_BASE_URL}/plant/delete?_id=`+item._id,{
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    console.log(rs);
+    if (rs.data.result) {
+      Alert.alert("Xoá thành công")
+      handleChangeState()
+      setLoading(false)
+    }
+  }
   return (
     <Card style={styles.card}>
       <Card.Cover source={{ uri: item.image }} />
@@ -106,6 +127,17 @@ const CardItem = ({ item, navigation, isLoading, onLoading }) => {
         visible={visibleEdit}
         onDismiss={hideDialogEdit}
       />
+      <Portal>
+        <Dialog visible={visibleDelete} onDismiss={hideDialogDelete}>
+          <Dialog.Content>
+            <Text variant="bodyMedium">Bạn có chắc chắn muốn xoá cây?</Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={hideDialogDelete}>Cancel</Button>
+            <Button onPress={()=>deleteTree(item)}>Done</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
       <Card.Content>
         <Title>{item.name}</Title>
         <View style={{ flexDirection: 'row', marginLeft: -20 }}>
@@ -115,8 +147,12 @@ const CardItem = ({ item, navigation, isLoading, onLoading }) => {
               </IconButton>
               <Text style={styles.temperature}>Độ ẩm đất: {item.soilMoisture} %</Text>
             </View>
-            <IconButton icon="pencil" size={30} onPress={() => showDialogEdit()}>
-            </IconButton>
+            <View style={{ display: 'flex', flexDirection: 'row', width: '50%', alignItems: 'center', justifyContent: 'space-evenly' }}>
+              <IconButton icon="pencil" size={30} onPress={() => showDialogEdit()}>
+              </IconButton>
+              <IconButton icon="delete" size={30} onPress={() => showDialogDelete()}>
+              </IconButton>
+            </View>
           </View>
         </View>
         <View>
